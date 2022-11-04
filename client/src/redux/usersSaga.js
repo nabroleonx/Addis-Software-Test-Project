@@ -8,9 +8,12 @@ import {
 import axios from "axios";
 import { toast } from "react-toastify";
 
+const BASE_URL =
+  "https://addis-software-test-project-production.up.railway.app/api/users";
+
 function* getUsersData() {
   const users = yield call(() =>
-    axios.get("http://localhost:5000/api/users").then((res) => {
+    axios.get(`${BASE_URL}`).then((res) => {
       return res.data;
     })
   );
@@ -19,7 +22,7 @@ function* getUsersData() {
 
 const AddUserAPI = async (data) => {
   let response = await axios.post(
-    "http://localhost:5000/api/users/",
+    `${BASE_URL}`,
     {
       firstname: data.firstname,
       lastname: data.lastname,
@@ -53,7 +56,7 @@ function* addUser({ payload }) {
 function* updateUser({ payload }) {
   const { id, data } = yield payload;
   const user = yield call(() =>
-    axios.patch(`http://localhost:5000/api/users/${id}`, data).then((res) => {
+    axios.patch(`${BASE_URL}/${id}`, data).then((res) => {
       return res.data;
     })
   );
@@ -64,7 +67,7 @@ function* updateUser({ payload }) {
 function* removeUser({ payload }) {
   const { id } = yield payload;
   const userId = yield call(() =>
-    axios.delete(`http://localhost:5000/api/users/${id}`).then((res) => {
+    axios.delete(`${BASE_URL}/${id}`).then((res) => {
       return res.data;
     })
   );
