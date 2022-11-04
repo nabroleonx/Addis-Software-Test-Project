@@ -17,6 +17,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditUserModal from "./components/EditUserModal";
 import DeleteUserModal from "./components/DeleteUserModal";
+import LoadingBars from "./components/LoadingBars";
 
 function App() {
   const users = useSelector((state) => state.users.searchedUsers);
@@ -75,41 +76,45 @@ function App() {
         />
 
         <Wrapper>
-          {users.map((user, idx) => (
-            <Items key={idx}>
-              <h3 style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
-                {user.firstname + " " + user.lastname}
-              </h3>
-              <p style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
-                {user.age} years old
-              </p>
-              <p style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
-                {(user.gender === "M" && "Male") ||
-                  (user.gender === "F" && "Female")}
-              </p>
-              <p style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
-                {user.height} cm
-              </p>
-              <ActionButtons>
-                <EditButton
-                  onClick={(e) => {
-                    setSelectedUser(user);
-                    setEditUserModalOpen(true);
-                  }}
-                >
-                  Edit
-                </EditButton>
-                <DeleteButton
-                  onClick={(e) => {
-                    setSelectedUser(user);
-                    setDeleteUserModalOpen(true);
-                  }}
-                >
-                  Delete
-                </DeleteButton>
-              </ActionButtons>
-            </Items>
-          ))}
+          {isLoading ? (
+            <LoadingBars />
+          ) : (
+            users.map((user, idx) => (
+              <Items key={idx}>
+                <h3 style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
+                  {user.firstname + " " + user.lastname}
+                </h3>
+                <p style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
+                  {user.age} years old
+                </p>
+                <p style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
+                  {(user.gender === "M" && "Male") ||
+                    (user.gender === "F" && "Female")}
+                </p>
+                <p style={{ fontFamily: "monospace", fontWeight: "lighter" }}>
+                  {user.height} cm
+                </p>
+                <ActionButtons>
+                  <EditButton
+                    onClick={(e) => {
+                      setSelectedUser(user);
+                      setEditUserModalOpen(true);
+                    }}
+                  >
+                    Edit
+                  </EditButton>
+                  <DeleteButton
+                    onClick={(e) => {
+                      setSelectedUser(user);
+                      setDeleteUserModalOpen(true);
+                    }}
+                  >
+                    Delete
+                  </DeleteButton>
+                </ActionButtons>
+              </Items>
+            ))
+          )}
         </Wrapper>
       </Container>
     </>
